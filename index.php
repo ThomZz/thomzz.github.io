@@ -3,20 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script type="text/javascript" src="thomzz_psw_gen.js"></script>
+<script type="text/javascript" src="javascripts/thomzz_psw_gen.js"></script>
 <title>ThomZz Password Gen v1.0</title>
 <link href='http://fonts.googleapis.com/css?family=Press+Start+2P|Roboto+Condensed:300' rel='stylesheet' type='text/css'>
-<link href="password_gen.css" rel="stylesheet" type="text/css"/>
+<link href="stylesheets/password_gen.css" rel="stylesheet" type="text/css"/>
 </head>
 <?php
 include_once "passwordGen.php";
-/*($p_passLength,
-$p_noCaps,
-$p_noSymbols,
-$p_prctNumbers,
-$p_prctCaps
-$p_prctSymbols,
-$p_prctLowers)*/
 
 $passLength = 12;
 $numbersMin = 0;

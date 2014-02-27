@@ -1,25 +1,26 @@
 <?php
 include_once "ASCII_Values.php";
-//
+//*****Classe du générateur de mot de passe*****
 class passwordGen
 {
 	// déclaration des propriétés
     private $password;
 	
-	private $passLength;
-	private $noSymbols;
-	private $noCaps;
+	private $passLength;  	 //Longueur du mot de passe
+	private $noSymbols;   	 //Indicateur "Utiliser symboles"
+	private $noCaps;	  	 //Indicateur "Utiliser Majuscules"
 	
-	private	$numberOfSym;
-	private	$numberOfCaps;
-	private $numberOfNums;
-	private $numberOfLowers;
+	private	$numberOfSym;    //Nombre de symboles dans le mot de passe généré
+	private	$numberOfCaps;   //Nombre de majs ...
+	private $numberOfNums; 	 //Nombre de chiffres ...
+	private $numberOfLowers; //Nombre de mins ...
 	
-	private $numbersMin;
-	private $capsMin;
-	private $lowersMin;
-	private $symbolsMin;
+	private $numbersMin; 	 //Nombre d'occurences minimales de chiffres désiré
+	private $capsMin;	 	 //... Majuscules désiré
+	private $lowersMin;	 	 //... Minuscules désiré
+	private $symbolsMin; 	 //... Symboles   désiré
 	//
+	//Constructeur
 	function __construct($p_passLength,
 						 $p_noCaps,
 						 $p_noSymbols,
@@ -64,13 +65,13 @@ class passwordGen
     public function getnumberOfLowers() {
         return htmlspecialchars($this->numberOfLowers);
     }
-	//		
+	//Méthode servant a déterminer le nombres d'occurences pour chaque types qui sont ajoutés dans le mot de passe		
 	private function analyse_type($p_option,
 								  $value)
 	{	
 		switch ($p_option) 
 		{
-			case 0:
+			case 0: //Aucune options de restriction de types
 				if (in_array($value,ASCII_Values::getSymbolsValues()))
 					$this->numberOfSym++;
 				elseif (in_array($value,ASCII_Values::getCapsValues()))
@@ -80,7 +81,7 @@ class passwordGen
 				else
 					$this->numberOfLowers++;
 				break;
-			case 1:
+			case 1: //Sans Symboles
 				if (in_array($value,ASCII_Values::getCapsValues()))
 					$this->numberOfCaps++;
 				elseif (in_array($value,ASCII_Values::getNumbersValues()))
@@ -88,7 +89,7 @@ class passwordGen
 				else
 					$this->numberOfLowers++;
 				break;
-			case 2:
+			case 2: //Sans Majuscules
 				if (in_array($value,ASCII_Values::getSymbolsValues()))
 					$this->numberOfSym++;
 				elseif (in_array($value,ASCII_Values::getNumbersValues()))
@@ -96,7 +97,7 @@ class passwordGen
 				else 
 					$this->numberOfLowers++;
 				break;
-			case 3:
+			case 3: //Sans Symboles, sans Majuscules
 				if (in_array($value,ASCII_Values::getNumbersValues()))
 					$this->numberOfNums++;
 				else
@@ -105,7 +106,7 @@ class passwordGen
 		}
 	return 0;
 	}		
-	//
+	//Méthode de la génération du mot de passe
 	public function generate()
 	{
 	    $random_int = 0;
@@ -117,29 +118,31 @@ class passwordGen
 		$options 	  = 0;
 		
 	
-		if ($this->noCaps == True && $this->noSymbols == True)	
+		if ($this->noCaps == True && $this->noSymbols == True)	//Sans symboles, sans majs.
 		{
 			$options = 3;
+			//La plage de valeurs possibles pour la génération de mots de passe selon les options de restrictions. 
 			$valid_values = array_merge(ASCII_Values::getLowersValues() , ASCII_Values::getNumbersValues());
 		}
-		elseif ($this->noCaps == True)
+		elseif ($this->noCaps == True) // Sans majs
 		{
 			$options = 2;
+			//...
 			$valid_values = array_merge(ASCII_Values::getSymbolsValues() ,ASCII_Values::getNumbersValues(), ASCII_Values::getLowersValues() );
 		}
-		elseif ($this->noSymbols == True)
+		elseif ($this->noSymbols == True) //Sans symboles
 		{
 			$options = 1;
+			//...
 			$valid_values = array_merge(ASCII_Values::getLettersValues(), ASCII_Values::getNumbersValues());
 		}
-		else
+		else //Aucune restrictions de types
 		{
 			
 			$valid_values = range(33,126);
 		}
-		
-		$to	= count($valid_values) - 1;
 					
+		//Boucle de génération du mot de passe, en ce basant sur les valeurs d'occurences minimales passées
 		for ($i=0;$i<$this->passLength;$i++) {
 			
 			if ($this->numbersMin > 0 && $this->numberOfNums < $this->numbersMin)

@@ -1,4 +1,4 @@
-$("head").append('<script type="text/javascript" src="complexify.js"></script>');
+$("head").append('<script type="text/javascript" src="javascripts/complexify.js"></script>');
 
 
 $(document).ready(function () {	
@@ -110,13 +110,6 @@ $(document).ready(function () {
 	//Validation lors de click sur le checkbox "Ne pas utiliser de symboles".
 	$("#chkNoSymbols").click(function(){controls_state("symbols");});
 	
-	//Code exécuté a chaque chargement de la page.
-	controls_state("caps");
-	controls_state("symbols");
-	$("#errorNums").hide();
-	if ($('#hide_options').val() == '1') //Sert a gérer l'état de la section d'option.
-		$("#options_section").hide();
-		
 	//Gestion de la barre de progrès pour la complexité du mot de passe.
 	$(function () {
         $("#pass").complexify({}, function (valid, complexity) {
@@ -129,4 +122,12 @@ $(document).ready(function () {
             $('#complexity').html(Math.round(complexity) + '%');
         });
     });
+	
+	//Code exécuté a chaque chargement de la page.
+	controls_state("caps");
+	controls_state("symbols");
+	$("#errorNums").hide();
+	if ($('#hide_options').val() == '1') //Sert a gérer l'état de la section d'option.
+		$("#options_section").hide();
+		
 });
